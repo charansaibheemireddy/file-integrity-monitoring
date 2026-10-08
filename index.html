@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FileGuard - browser-based file integrity monitoring using SHA-256 hashing.">
+  <title>FileGuard | File Integrity Monitoring System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon">🔐</div>
+        <div>
+          <h1>FileGuard</h1>
+          <p>File Integrity Monitoring System</p>
+        </div>
+      </div>
+      <div class="algorithm-badge">SHA-256</div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h2>Monitor file integrity with cryptographic hashing</h2>
+        <p>Build a trusted baseline, then verify selected files to detect modifications, new files, or missing files.</p>
+      </section>
+
+      <section class="card upload-card">
+        <div class="section-heading">
+          <div>
+            <h2>Select Files</h2>
+            <p>Choose the same files or folder again when you want to verify the baseline.</p>
+          </div>
+        </div>
+
+        <div class="picker-grid">
+          <label class="picker">
+            <input id="fileInput" type="file" multiple>
+            <span class="picker-icon">📄</span>
+            <strong>Choose Files</strong>
+            <span>Select one or more files</span>
+          </label>
+
+          <label class="picker">
+            <input id="folderInput" type="file" webkitdirectory directory multiple>
+            <span class="picker-icon">📁</span>
+            <strong>Choose Folder</strong>
+            <span>Select a folder and its files</span>
+          </label>
+        </div>
+
+        <div id="selectionInfo" class="selection-info hidden"></div>
+        <div id="fileList" class="file-list empty-state">No files selected yet.</div>
+      </section>
+
+      <section class="card actions-card">
+        <div class="actions">
+          <button id="baselineBtn" class="btn btn-primary" type="button">🔐 Create Baseline</button>
+          <button id="verifyBtn" class="btn btn-secondary" type="button">🔍 Verify Integrity</button>
+          <button id="clearBaselineBtn" class="btn btn-danger-outline" type="button">🗑️ Clear Baseline</button>
+        </div>
+        <p id="baselineInfo" class="baseline-info">No baseline has been created.</p>
+      </section>
+
+      <section id="statusCard" class="status-card status-neutral" aria-live="polite">
+        <div id="statusIcon" class="status-icon">🟡</div>
+        <div>
+          <p class="status-label">Security Status</p>
+          <h2 id="statusTitle">No Scan Performed</h2>
+          <p id="statusMessage">Create a baseline first, then verify your selected files.</p>
+        </div>
+      </section>
+
+      <section class="summary-grid" aria-label="Scan summary">
+        <div class="summary-card unchanged">
+          <span class="summary-icon">🟢</span>
+          <strong id="unchangedCount">0</strong>
+          <span>Unchanged</span>
+        </div>
+        <div class="summary-card modified">
+          <span class="summary-icon">🟠</span>
+          <strong id="modifiedCount">0</strong>
+          <span>Modified</span>
+        </div>
+        <div class="summary-card new">
+          <span class="summary-icon">🔵</span>
+          <strong id="newCount">0</strong>
+          <span>New</span>
+        </div>
+        <div class="summary-card missing">
+          <span class="summary-icon">🔴</span>
+          <strong id="missingCount">0</strong>
+          <span>Missing</span>
+        </div>
+      </section>
+
+      <section class="card results-card">
+        <div class="section-heading">
+          <div>
+            <h2>Integrity Results</h2>
+            <p id="resultsSubtitle">Results will appear after an integrity verification.</p>
+          </div>
+          <span id="resultCount" class="count-badge">0 files</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>File</th>
+                <th>Status</th>
+                <th>SHA-256</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody">
+              <tr>
+                <td colspan="3" class="table-empty">No verification results yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card baseline-card">
+        <div class="section-heading">
+          <div>
+            <h2>Baseline Information</h2>
+            <p>The baseline is stored locally in this browser.</p>
+          </div>
+        </div>
+        <div class="info-grid">
+          <div><span>Baseline Files</span><strong id="baselineFileCount">0</strong></div>
+          <div><span>Created</span><strong id="baselineCreated">—</strong></div>
+          <div><span>Algorithm</span><strong>SHA-256</strong></div>
+          <div><span>Storage</span><strong>Browser Local Storage</strong></div>
+        </div>
+      </section>
+
+      <section class="card history-card">
+        <div class="section-heading">
+          <div>
+            <h2>Scan History</h2>
+            <p>Recent verification activity on this browser.</p>
+          </div>
+          <button id="clearHistoryBtn" class="text-button" type="button">Clear History</button>
+        </div>
+        <div id="historyList" class="history-list">
+          <div class="table-empty">No scan history yet.</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>FileGuard processes selected files locally in your browser. Files are not uploaded to a server.</p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>
